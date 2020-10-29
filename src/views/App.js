@@ -1,42 +1,24 @@
-import React, { useEffect, useState } from 'react';
-// import _ from 'lodash';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-// import { setVH } from '../util/helpers';
+import React, { useEffect } from 'react';
+import { BrowserRouter, Switch, Route, Redirect, useHistory } from 'react-router-dom';
 import MainTemplate from '../components/templates/MainTemplate';
 import Home from './Home';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
+import AddAnnoucement from './AddAnnoucement';
+import authService from '../helpers/authService';
 
-// const setHeight = setVH();
-
-const App = () => {
-  // const [user, setUser] = useState(null);
-
-  // const getUser = async () => {
-  //   try {
-  //     const response = await fetch('http://localhost:8080/user', {
-  //       headers: {
-  //         Authorization: `Bearer ${localStorage.getItem('token')}`,
-  //       },
-  //     });
-  //     console.log(response.ok);
-  //     const userData = await response.json();
-  //     setUser(userData.user);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+const PrivateRoute = ({ children, ...rest }) => {
+  const location = useHistory();
+  const token = authService.getCurrentUser();
 
   useEffect(() => {
-    // setHeight();
-    // const debouced = _.debounce(setHeight, 500);
-    // window.addEventListener('resize', debouced);
-    // return () => {
-    //   window.removeEventListener('resize', debouced);
-    // };
-    // getUser();
-  }, []);
+    console.log(location);
+  });
 
+  return <Route {...rest} render={() => (token ? children : <Redirect to="/" />)} />;
+};
+
+const App = () => {
   return (
     <BrowserRouter>
       <MainTemplate>
@@ -44,6 +26,9 @@ const App = () => {
           <Route exact path="/" component={Home} />
           <Route path="/signin" component={SignIn} />
           <Route path="/signup" component={SignUp} />
+          <PrivateRoute path="/addannoucement">
+            <AddAnnoucement />
+          </PrivateRoute>
         </Switch>
       </MainTemplate>
     </BrowserRouter>
