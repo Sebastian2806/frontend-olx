@@ -4,6 +4,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Formik, Field, Form } from 'formik';
 import { Button, Box, TextField, Typography, CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import authService from '../helpers/authService';
 
 const useStyles = makeStyles({
   box: {
@@ -39,13 +40,8 @@ const SignIn = (props) => {
         onSubmit={(values, { setSubmitting, setErrors }) => {
           setIsLoading(true);
           setSubmitting(true);
-          fetch('http://localhost:8080/signin', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(values),
-          })
+          authService
+            .signin(values)
             .then((res) => {
               if (res.status === 401)
                 return { success: false, msg: 'Niepoprawny login lub hasło!' };

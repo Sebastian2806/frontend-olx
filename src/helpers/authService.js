@@ -1,32 +1,29 @@
-// const API_URL = 'http://localhost:8080/';
+const API_URL = 'http://localhost:8080/';
 
 class AuthService {
-  //   login(username, password) {
-  //     return axios
-  //       .post(API_URL + "signin", {
-  //         username,
-  //         password
-  //       })
-  //       .then(response => {
-  //         if (response.data.accessToken) {
-  //           localStorage.setItem("user", JSON.stringify(response.data));
-  //         }
-
-  //         return response.data;
-  //       });
-  //   }
+  signin(values) {
+    return fetch(`${API_URL}signin`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    });
+  }
 
   logout() {
     localStorage.removeItem('token');
   }
 
-  //   register(username, email, password) {
-  //     return axios.post(API_URL + "signup", {
-  //       username,
-  //       email,
-  //       password
-  //     });
-  //   }
+  register(values) {
+    return fetch(`${API_URL}signup`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    });
+  }
 
   getCurrentUser() {
     return localStorage.getItem('token');

@@ -5,6 +5,7 @@ import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 import { Button, Box, TextField, Typography, CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import authService from '../helpers/authService';
 
 const useStyles = makeStyles({
   box: {
@@ -52,13 +53,8 @@ const SignUp = (props) => {
         onSubmit={(values, { setSubmitting, setErrors }) => {
           setIsLoading(true);
           setSubmitting(true);
-          fetch('http://localhost:8080/signup', {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(values),
-          })
+          authService
+            .register(values)
             .then((res) => res.json())
             .then((user) => {
               if (user.errors) {
