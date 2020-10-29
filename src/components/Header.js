@@ -4,6 +4,7 @@ import { AppBar, Toolbar, IconButton, Link } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import AddIcon from '@material-ui/icons/Add';
 import authService from '../helpers/authService';
 
 const useStyles = makeStyles({
@@ -54,21 +55,15 @@ const Header = () => {
           <AccountCircleIcon />
         </IconButton>
         {currentUser ? (
-          <IconButton component={RouterLink} to="/" className={classes.icon} onClick={logOut}>
-            <ExitToAppIcon />
-          </IconButton>
+          <>
+            <IconButton component={RouterLink} to="/addannoucement" className={classes.icon}>
+              <AddIcon />
+            </IconButton>
+            <IconButton component={RouterLink} to="/" className={classes.icon} onClick={logOut}>
+              <ExitToAppIcon />
+            </IconButton>
+          </>
         ) : null}
-        {/* <StyledWrapper> */}
-        {/* <Link to="/">
-          <h1>XLO</h1>
-        </Link> */}
-        {/* <div>
-        <Link to="/signin">
-          <Button>Mój XLO</Button>
-        </Link>
-        <Button>Dodaj ogłoszenie</Button>
-      </div> */}
-        {/* </StyledWrapper> */}
       </Toolbar>
     </AppBar>
   );
