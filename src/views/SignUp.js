@@ -3,7 +3,7 @@ import HeaderTemplate from '../components/templates/HeaderTemplate';
 import { Link as RouterLink } from 'react-router-dom';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
-import { Button, Box, TextField, Typography, CircularProgress, Link } from '@material-ui/core';
+import { Button, Box, TextField, Typography, CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({

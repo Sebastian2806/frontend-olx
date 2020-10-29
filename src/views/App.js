@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import _ from 'lodash';
+// import _ from 'lodash';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 // import { setVH } from '../util/helpers';
 import MainTemplate from '../components/templates/MainTemplate';
@@ -10,21 +10,22 @@ import SignUp from './SignUp';
 // const setHeight = setVH();
 
 const App = () => {
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
 
-  const getUser = async () => {
-    try {
-      const response = await fetch('http://localhost:8080/user', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
-      console.log(response.ok);
-      const userData = await response.json();
-      setUser(userData.user);
-    } catch (err) {
-      console.log(err);
-    }
+  // const getUser = async () => {
+  //   try {
+  //     const response = await fetch('http://localhost:8080/user', {
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem('token')}`,
+  //       },
+  //     });
+  //     console.log(response.ok);
+  //     const userData = await response.json();
+  //     setUser(userData.user);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   useEffect(() => {
     // setHeight();
@@ -33,7 +34,7 @@ const App = () => {
     // return () => {
     //   window.removeEventListener('resize', debouced);
     // };
-    getUser();
+    // getUser();
   }, []);
 
   return (

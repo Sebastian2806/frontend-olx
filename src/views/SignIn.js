@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import HeaderTemplate from '../components/templates/HeaderTemplate';
 import { Link as RouterLink } from 'react-router-dom';
 import { Formik, Field, Form } from 'formik';
-import { Button, Box, TextField, Typography, CircularProgress, Link } from '@material-ui/core';
-import { useFormik } from 'formik';
+import { Button, Box, TextField, Typography, CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
@@ -48,7 +47,6 @@ const SignIn = (props) => {
             body: JSON.stringify(values),
           })
             .then((res) => {
-              console.log(res);
               if (res.status === 401)
                 return { success: false, msg: 'Niepoprawny login lub hasło!' };
               else if (res.ok === false) return { success: false, msg: 'Błąd serwera!' };
@@ -60,6 +58,7 @@ const SignIn = (props) => {
               } else {
                 props.history.push('/');
               }
+              localStorage.setItem('token', user.token);
               setSubmitting(false);
               setIsLoading(false);
             })

@@ -24,7 +24,6 @@ const Home = () => {
   }, []);
 
   if (annoucements.length > 0) {
-    console.log(annoucements);
     cards = annoucements.map((el) => (
       <Card key={el._id} title={el.title} price={el.price} place={el.localization} />
     ));
