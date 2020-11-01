@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AddIcon from '@material-ui/icons/Add';
-import authService from '../helpers/authService';
+import authService from '../services/authService';
 
 const useStyles = makeStyles({
   h1: {

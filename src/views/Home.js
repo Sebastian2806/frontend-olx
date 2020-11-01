@@ -18,6 +18,7 @@ const Home = () => {
     fetch('http://localhost:8080/getAnnoucements')
       .then((result) => result.json())
       .then((ann) => {
+        console.log(ann);
         setAnnoucements(ann.annoucements);
       })
       .catch((err) => console.log(err));

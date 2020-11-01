@@ -4,7 +4,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Formik, Field, Form } from 'formik';
 import { Button, Box, TextField, Typography, CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import authService from '../helpers/authService';
+import authService from '../services/authService';
 
 const useStyles = makeStyles({
   box: {
