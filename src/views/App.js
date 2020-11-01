@@ -4,6 +4,7 @@ import MainTemplate from '../components/templates/MainTemplate';
 import Home from './Home';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
+import AnnoucementDetails from './AnnoucementDetails';
 import AddAnnoucement from './AddAnnoucement';
 import authService from '../services/authService';
 
@@ -19,6 +20,7 @@ const App = () => {
       <MainTemplate>
         <Switch>
           <Route exact path="/" component={Home} />
+          <Route path="/getAnnoucement/:annId" component={AnnoucementDetails} />
           <Route path="/signin" component={SignIn} />
           <Route path="/signup" component={SignUp} />
           <PrivateRoute path="/addannoucement">

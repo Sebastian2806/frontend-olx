@@ -62,7 +62,7 @@ const SignUp = (props) => {
                 user.errors.forEach((el) => (err[el.param] = el.msg));
                 setErrors(err);
               } else if (!user.success) {
-                setErrors({ email: 'Występił błąd serwera!' });
+                setErrors({ email: 'Wystąpił błąd serwera!' });
               } else {
                 props.history.push('/signin');
               }

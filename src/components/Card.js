@@ -14,17 +14,14 @@ const useStyles = makeStyles({
   },
 });
 
-const Card = ({ title, place, price }) => {
+const Card = ({ _id, title, place, price, photo }) => {
   const classes = useStyles();
 
   return (
-    <C className={classes.root} to="/signup" component={RouterLink}>
+    <C className={classes.root} to={`/getAnnoucement/${_id}`} component={RouterLink}>
       <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          image="/static/images/cards/contemplative-reptile.jpg"
-          title="Contemplative Reptile"
-        />
+        <img src={`http://localhost:8080/${photo}`} alt={title} style={{ height: 150 }} />
+        {/* <CardMedia className={classes.media} image={photo} title="Contemplative Reptile" /> */}
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             {title}

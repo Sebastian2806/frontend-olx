@@ -12,6 +12,8 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import HeaderTemplate from '../components/templates/HeaderTemplate';
+import authHeader from '../helpers/authHeader';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   box: {
@@ -58,6 +60,7 @@ const AddAnnoucementSchema = Yup.object().shape({
 
 const Home = () => {
   const classes = useStyles();
+  let history = useHistory();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -89,16 +92,37 @@ const Home = () => {
           photo: '',
         }}
         validationSchema={AddAnnoucementSchema}
-        onSubmit={(values) => {
+        onSubmit={(values, { setSubmitting, setErrors }) => {
           let data = new FormData();
+          data.append('title', values.title);
+          data.append('price', values.price);
+          data.append('description', values.description);
+          data.append('phone_number', values.phone_number);
+          data.append('localization', values.localization);
+          data.append('category_id', values.category_id);
           data.append('photo', values.photo);
 
+          setIsLoading(true);
+          setSubmitting(true);
           fetch('http://localhost:8080/addAnnoucement', {
             method: 'PUT',
             body: data,
+            headers: authHeader(),
           })
-            .then((res) => {
-              console.log(res);
+            .then((res) => res.json())
+            .then((ann) => {
+              console.log(ann);
+              setSubmitting(false);
+              setIsLoading(false);
+              if (ann.errors) {
+                const err = {};
+                ann.errors.forEach((el) => (err[el.param] = el.msg));
+                setErrors(err);
+              } else if (!ann.success) {
+                setErrors({ title: 'Występił błąd serwera!' });
+              } else {
+                history.push('/');
+              }
             })
             .catch((err) => console.log(err));
         }}
@@ -214,7 +238,7 @@ const Home = () => {
                 size="large"
                 color="primary"
                 type="submit"
-                // disabled={isSubmitting}
+                disabled={isSubmitting}
               >
                 {isLoading ? <CircularProgress color="secondary" /> : 'Zarejestruj się'}
               </Button>

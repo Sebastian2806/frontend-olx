@@ -18,7 +18,6 @@ const Home = () => {
     fetch('http://localhost:8080/getAnnoucements')
       .then((result) => result.json())
       .then((ann) => {
-        console.log(ann);
         setAnnoucements(ann.annoucements);
       })
       .catch((err) => console.log(err));
@@ -26,7 +25,14 @@ const Home = () => {
 
   if (annoucements.length > 0) {
     cards = annoucements.map((el) => (
-      <Card key={el._id} title={el.title} price={el.price} place={el.localization} />
+      <Card
+        key={el._id}
+        title={el.title}
+        price={el.price}
+        place={el.localization}
+        photo={el.imageUrl}
+        _id={el._id}
+      />
     ));
   }
 
