@@ -1,31 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import HeaderTemplate from '../components/templates/HeaderTemplate';
-import Card from '../components/Card';
+import Annoucement from '../components/Annoucement';
+import { CircularProgress, Grid, makeStyles } from '@material-ui/core';
+import { Autorenew } from '@material-ui/icons';
 
-const StyledGrid = styled.main`
-  width: 1000px;
-  min-height: 200px;
-  display: grid;
-  grid-template-columns: 320px;
-`;
+const useStyles = makeStyles({
+  root: {
+    padding: '30px 30px 0 30px',
+    display: 'flex',
+    justifyContent: 'center',
+    margin: '0 auto',
+    maxWidth: 1280,
+  },
+});
 
 const Home = () => {
-  const [annoucements, setAnnoucements] = useState([]);
+  const classes = useStyles();
+  const [annoucements, setAnnoucements] = useState(null);
   let cards;
 
   useEffect(() => {
     fetch('http://localhost:8080/getAnnoucements')
       .then((result) => result.json())
       .then((ann) => {
+        console.log(ann);
         setAnnoucements(ann.annoucements);
       })
       .catch((err) => console.log(err));
   }, []);
 
-  if (annoucements.length > 0) {
+  if (annoucements) {
     cards = annoucements.map((el) => (
-      <Card
+      <Annoucement
         key={el._id}
         title={el.title}
         price={el.price}
@@ -38,13 +45,19 @@ const Home = () => {
 
   return (
     <HeaderTemplate>
-      <div>
-        {annoucements.length > 0 ? (
-          <StyledGrid>{cards}</StyledGrid>
+      <main className={classes.root}>
+        {annoucements ? (
+          annoucements.length > 0 ? (
+            <Grid container justify="center" spacing={2}>
+              {cards}
+            </Grid>
+          ) : (
+            <p>Brak ogłoszeń do wyświetlenia</p>
+          )
         ) : (
-          <p>Brak ogłoszeń do wyświetlenia</p>
+          <CircularProgress color="secondary" />
         )}
-      </div>
+      </main>
     </HeaderTemplate>
   );
 };

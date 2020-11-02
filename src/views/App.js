@@ -7,6 +7,13 @@ import SignUp from './SignUp';
 import AnnoucementDetails from './AnnoucementDetails';
 import AddAnnoucement from './AddAnnoucement';
 import authService from '../services/authService';
+import { CssBaseline, ThemeProvider, createMuiTheme } from '@material-ui/core';
+
+const theme = createMuiTheme({
+  palette: {
+    type: 'dark',
+  },
+});
 
 const PrivateRoute = ({ children, ...rest }) => {
   const token = authService.getCurrentUser();
@@ -17,17 +24,20 @@ const PrivateRoute = ({ children, ...rest }) => {
 const App = () => {
   return (
     <BrowserRouter>
-      <MainTemplate>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/getAnnoucement/:annId" component={AnnoucementDetails} />
-          <Route path="/signin" component={SignIn} />
-          <Route path="/signup" component={SignUp} />
-          <PrivateRoute path="/addannoucement">
-            <AddAnnoucement />
-          </PrivateRoute>
-        </Switch>
-      </MainTemplate>
+      <ThemeProvider theme={theme}>
+        <MainTemplate>
+          <CssBaseline />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/annoucementDetails/:annId" component={AnnoucementDetails} />
+            <Route path="/signin" component={SignIn} />
+            <Route path="/signup" component={SignUp} />
+            <PrivateRoute path="/addannoucement">
+              <AddAnnoucement />
+            </PrivateRoute>
+          </Switch>
+        </MainTemplate>
+      </ThemeProvider>
     </BrowserRouter>
   );
 };

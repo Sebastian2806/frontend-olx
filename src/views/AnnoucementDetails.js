@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import HeaderTemplate from '../components/templates/HeaderTemplate';
-import Card from '../components/Card';
+import Card from '../components/Annoucement';
 import { useParams } from 'react-router-dom';
 
 const AnnoucementDetails = () => {
