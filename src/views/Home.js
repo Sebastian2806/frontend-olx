@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import HeaderTemplate from '../components/templates/HeaderTemplate';
 import Annoucement from '../components/Annoucement';
 import { CircularProgress, Grid, makeStyles } from '@material-ui/core';
-import { Autorenew } from '@material-ui/icons';
 
 const useStyles = makeStyles({
   root: {

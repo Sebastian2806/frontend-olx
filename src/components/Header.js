@@ -7,7 +7,10 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AddIcon from '@material-ui/icons/Add';
 import authService from '../services/authService';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
+  toolbar: {
+    backgroundColor: theme.palette.grey['800'],
+  },
   h1: {
     padding: '10px 20px',
     fontSize: 30,
@@ -28,7 +31,7 @@ const useStyles = makeStyles({
   button: {
     margin: '30px 0 20px 0',
   },
-});
+}));
 
 const Header = () => {
   const classes = useStyles();
@@ -47,7 +50,7 @@ const Header = () => {
 
   return (
     <AppBar position="static">
-      <Toolbar>
+      <Toolbar className={classes.toolbar}>
         <Link className={classes.h1} to="/" component={RouterLink}>
           XLO
         </Link>
