@@ -13,6 +13,7 @@ class AuthService {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('user_id');
   }
 
   register(values) {
@@ -27,6 +28,10 @@ class AuthService {
 
   getCurrentUser() {
     return localStorage.getItem('token');
+  }
+
+  getCurrentUserId() {
+    return localStorage.getItem('user_id');
   }
 }
 

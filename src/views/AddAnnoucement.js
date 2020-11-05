@@ -240,7 +240,7 @@ const Home = () => {
                 type="submit"
                 disabled={isSubmitting}
               >
-                {isLoading ? <CircularProgress color="secondary" /> : 'Zarejestruj się'}
+                {isLoading ? <CircularProgress color="secondary" /> : 'Dodaj ogłoszenie'}
               </Button>
             </Box>
           </Form>

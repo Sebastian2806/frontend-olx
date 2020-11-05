@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import MainTemplate from '../components/templates/MainTemplate';
 import Home from './Home';
@@ -6,6 +6,7 @@ import SignIn from './SignIn';
 import SignUp from './SignUp';
 import AnnoucementDetails from './AnnoucementDetails';
 import AddAnnoucement from './AddAnnoucement';
+import AccountDetails from './AccountDetails';
 import authService from '../services/authService';
 import { CssBaseline, ThemeProvider, createMuiTheme } from '@material-ui/core';
 
@@ -34,6 +35,9 @@ const App = () => {
             <Route path="/signup" component={SignUp} />
             <PrivateRoute path="/addannoucement">
               <AddAnnoucement />
+            </PrivateRoute>
+            <PrivateRoute path="/userdetails/:userId">
+              <AccountDetails />
             </PrivateRoute>
           </Switch>
         </MainTemplate>

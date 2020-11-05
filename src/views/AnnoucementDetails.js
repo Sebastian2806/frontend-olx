@@ -110,7 +110,7 @@ const AnnoucementDetails = () => {
                         <PersonIcon />
                       </Avatar>
                       <Typography variant="body1" className={classes.leftMargin}>
-                        Marian
+                        {annoucement.user_id.email}
                       </Typography>
                     </Button>
                     <Typography variant="body2" className={classes.leftMargin}>
@@ -153,7 +153,7 @@ const AnnoucementDetails = () => {
                       <PersonIcon />
                     </Avatar>
                     <Typography variant="body1" className={classes.leftMargin}>
-                      Marian
+                      {annoucement.user_id.email}
                     </Typography>
                   </Button>
                   <Typography variant="body2" className={classes.leftMargin}>

@@ -55,6 +55,7 @@ const SignIn = (props) => {
                 props.history.push('/');
               }
               localStorage.setItem('token', user.token);
+              localStorage.setItem('user_id', user.user_id);
               setSubmitting(false);
               setIsLoading(false);
             })

@@ -36,10 +36,16 @@ const useStyles = makeStyles((theme) => ({
 const Header = () => {
   const classes = useStyles();
   const [currentUser, setCurrentUser] = useState(null);
+  const [currentUserId, setCurrentUserId] = useState(null);
+
   useEffect(() => {
-    const user = authService.getCurrentUser();
-    if (user) {
-      setCurrentUser(user);
+    const token = authService.getCurrentUser();
+    const user_id = authService.getCurrentUserId();
+    if (token) {
+      setCurrentUser(token);
+    }
+    if (user_id) {
+      setCurrentUserId(user_id);
     }
   }, []);
 
@@ -54,7 +60,11 @@ const Header = () => {
         <Link className={classes.h1} to="/" component={RouterLink}>
           XLO
         </Link>
-        <IconButton component={RouterLink} className={classes.icon} to="/signin">
+        <IconButton
+          component={RouterLink}
+          className={classes.icon}
+          to={!currentUser ? '/signin' : `/userdetails/${currentUserId}`}
+        >
           <AccountCircleIcon />
         </IconButton>
         {currentUser ? (
