@@ -1,59 +1,27 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import cx from 'classnames';
-import { makeStyles, Paper, Typography } from '@material-ui/core';
+import { Paper, Typography } from '@material-ui/core';
 import Image from './atoms/Image';
 import ActionsMenu from './atoms/ActionsMenu';
+import annoucementStyles from '../styles/annoucement.styles';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '32%',
-    height: 300,
-    padding: theme.spacing(1.5),
-    backgroundColor: theme.palette.grey['A400'],
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-  },
-  container: {
-    width: '100%',
-    height: '50%',
-  },
-  desriptionContainer: {
-    width: '100%',
-    height: '50%',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-  },
-  link: {
-    textDecoration: 'none',
-    color: '#fff',
-  },
-  bold: {
-    fontWeight: theme.typography.fontWeightBold,
-  },
-  light: {
-    fontWeight: theme.typography.fontWeightLight,
-    marginTop: theme.spacing(1),
-  },
-  negotiate: {
-    marginLeft: theme.spacing(1),
-  },
-  priceContainer: {
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-}));
+const useStyles = annoucementStyles;
 
-const SingleAnnoucement = ({ _id, title, imageUrl, localization, userActions, price }) => {
+const SingleAnnoucement = ({
+  _id,
+  title,
+  imageUrl,
+  localization,
+  price,
+  userActions,
+  deleteAnnoucement,
+}) => {
   const classes = useStyles();
   const formatedTitle = title.length > 25 ? `${title.slice(0, 25)}...` : title;
 
   return (
-    <Paper component="li" className={classes.root}>
+    <Paper component="li" className={classes.root} elevation={5}>
       <div className={classes.container}>
         <Image title={title} src={`http://localhost:8080/${imageUrl}`} />
       </div>
@@ -72,7 +40,7 @@ const SingleAnnoucement = ({ _id, title, imageUrl, localization, userActions, pr
                 do negocjacji
               </Typography>
             </Typography>
-            {userActions && <ActionsMenu />}
+            {userActions && <ActionsMenu deleteAnnoucement={() => deleteAnnoucement(_id)} />}
           </div>
         </div>
       </div>

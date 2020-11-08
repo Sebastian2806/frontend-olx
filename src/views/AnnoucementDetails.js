@@ -84,7 +84,6 @@ const AnnoucementDetails = () => {
     fetch(`http://localhost:8080/getAnnoucement/${annId}`)
       .then((result) => result.json())
       .then((ann) => {
-        console.log(ann);
         setAnnoucement(ann.annoucement);
       })
       .catch((err) => console.log(err));

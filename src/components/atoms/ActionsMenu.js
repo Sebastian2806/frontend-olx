@@ -2,13 +2,12 @@ import React from 'react';
 import { IconButton, Menu, MenuItem } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
-const ActionsMenu = ({ ariaContols, ariaLabel }) => {
+const ActionsMenu = ({ ariaContols, ariaLabel, deleteAnnoucement }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
   const handleClick = (e) => {
     setAnchorEl(e.currentTarget);
-    console.log(e.currentTarget);
   };
 
   const handleClose = () => {
@@ -32,7 +31,7 @@ const ActionsMenu = ({ ariaContols, ariaLabel }) => {
         open={open}
         onClose={handleClose}
       >
-        <MenuItem>Usuń</MenuItem>
+        <MenuItem onClick={deleteAnnoucement}>Usuń</MenuItem>
         {/* <MenuItem>Edytuj</MenuItem> */}
       </Menu>
     </div>
