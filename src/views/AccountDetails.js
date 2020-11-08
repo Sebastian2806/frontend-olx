@@ -17,6 +17,7 @@ import {
 import HeaderTemplate from '../components/templates/HeaderTemplate';
 import PersonIcon from '@material-ui/icons/Person';
 import authService from '../services/authService';
+import SingleAnnoucement from '../components/SingleAnnoucement';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
   },
   avatarSize: {
-    margin: theme.spacing(5),
+    margin: theme.spacing(3),
     width: theme.spacing(11),
     height: theme.spacing(11),
   },
@@ -43,9 +44,11 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: 'none',
   },
   box: {
+    listStyle: 'none',
     display: 'flex',
+    justifyContent: 'space-between',
     flexWrap: 'wrap',
-    '&::ater': {
+    '&::after': {
       content: '',
       flex: 'auto',
     },
@@ -65,10 +68,8 @@ const AccountDetails = () => {
   const [userAnnoucements, setUserAnnoucements] = useState(null);
   const [token, setToken] = useState(null);
   const { userId } = useParams();
-  const history = useHistory();
 
   const deleteAnnoucement = (ann_id) => {
-    // console.log(1);
     fetch(`http://localhost:8080/removeAnnoucement/${ann_id}`, {
       method: 'DELETE',
       headers: {
@@ -110,10 +111,11 @@ const AccountDetails = () => {
               {userAnnoucements.user.email}
             </Typography>
             <Paper className={classes.paper}>
-              <Typography variant="h6">Ogłoszenia użytkownika</Typography>
-              <Container className={classes.box}>
-                {userAnnoucements.annoucements.map(({ _id, title, imageUrl, price, place }) => (
-                  <Card key={_id} className={classes.card}>
+              <Typography variant="h6">Ogłoszenia użytkownika:</Typography>
+              <Container className={classes.box} component="ul">
+                {userAnnoucements.annoucements.map(({ _id, ...props }) => (
+                  <SingleAnnoucement key={_id} _id={_id} {...props} userActions></SingleAnnoucement>
+                  /* <Card key={_id} className={classes.card}>
                     <CardActionArea to={`/annoucementDetails/${_id}`} component={Link}>
                       <CardMedia
                         className={classes.mediaImage}
@@ -149,7 +151,7 @@ const AccountDetails = () => {
                         Usuń
                       </Button>
                     </CardActions>
-                  </Card>
+                  </Card> */
                 ))}
               </Container>
             </Paper>
