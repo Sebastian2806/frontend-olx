@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import HeaderTemplate from '../components/templates/HeaderTemplate';
 import Annoucement from '../components/Annoucement';
 import { CircularProgress, Grid, makeStyles } from '@material-ui/core';
@@ -22,7 +23,6 @@ const Home = () => {
     fetch('http://localhost:8080/getAnnoucements')
       .then((result) => result.json())
       .then((ann) => {
-        console.log(ann);
         setAnnoucements(ann.annoucements);
       })
       .catch((err) => console.log(err));
@@ -60,4 +60,8 @@ const Home = () => {
   );
 };
 
-export default Home;
+const mapStateToProps = (state) => {
+  return {};
+};
+
+export default connect(mapStateToProps)(Home);

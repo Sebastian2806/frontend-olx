@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import HeaderTemplate from '../components/templates/HeaderTemplate';
+import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { Formik, Field, Form } from 'formik';
+import { connect } from 'react-redux';
 import { Button, Box, TextField, Typography, CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import authService from '../services/authService';
+import HeaderTemplate from '../components/templates/HeaderTemplate';
+import { authenticateAction } from '../actions';
 
 const useStyles = makeStyles({
   box: {
@@ -24,10 +25,16 @@ const useStyles = makeStyles({
   },
 });
 
-const SignIn = (props) => {
+const SignIn = ({ authenticate, history, user }) => {
   const classes = useStyles();
 
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (user && user.isLoggedIn) {
+      history.push('/');
+    }
+  }, [user, history]);
 
   return (
     <HeaderTemplate>
@@ -35,31 +42,15 @@ const SignIn = (props) => {
         initialValues={{
           email: '',
           password: '',
-          repeatedPassword: '',
         }}
-        onSubmit={(values, { setSubmitting, setErrors }) => {
-          setIsLoading(true);
+        onSubmit={async ({ email, password }, { setSubmitting, setErrors }) => {
           setSubmitting(true);
-          authService
-            .signin(values)
-            .then((res) => {
-              if (res.status === 401)
-                return { success: false, msg: 'Niepoprawny login lub hasło!' };
-              else if (res.ok === false) return { success: false, msg: 'Błąd serwera!' };
-              else return res.json();
-            })
-            .then((user) => {
-              if (!user.success) {
-                setErrors({ email: user.msg });
-              } else {
-                props.history.push('/');
-              }
-              localStorage.setItem('token', user.token);
-              localStorage.setItem('user_id', user.user_id);
-              setSubmitting(false);
-              setIsLoading(false);
-            })
-            .catch((err) => console.log(err));
+          setIsLoading(true);
+
+          await authenticate(email, password, setErrors);
+
+          setSubmitting(false);
+          setIsLoading(false);
         }}
       >
         {({ values, errors, touched, isSubmitting }) => (
@@ -111,4 +102,13 @@ const SignIn = (props) => {
   );
 };
 
-export default SignIn;
+const mapStateToProps = ({ user }) => ({
+  user,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  authenticate: (email, password, setErrors) =>
+    dispatch(authenticateAction(email, password, setErrors)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

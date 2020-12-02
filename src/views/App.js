@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from '../store';
 import MainTemplate from '../components/templates/MainTemplate';
 import Home from './Home';
 import SignIn from './SignIn';
@@ -33,25 +35,27 @@ const PrivateRoute = ({ children, ...rest }) => {
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <MainTemplate>
-          <CssBaseline />
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/annoucementDetails/:annId" component={AnnoucementDetails} />
-            <Route path="/signin" component={SignIn} />
-            <Route path="/signup" component={SignUp} />
-            <PrivateRoute path="/addannoucement">
-              <AddAnnoucement />
-            </PrivateRoute>
-            <PrivateRoute path="/userdetails/:userId">
-              <AccountDetails />
-            </PrivateRoute>
-          </Switch>
-        </MainTemplate>
-      </ThemeProvider>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <ThemeProvider theme={theme}>
+          <MainTemplate>
+            <CssBaseline />
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route path="/annoucementDetails/:annId" component={AnnoucementDetails} />
+              <Route path="/signin" component={SignIn} />
+              <Route path="/signup" component={SignUp} />
+              <PrivateRoute path="/addannoucement">
+                <AddAnnoucement />
+              </PrivateRoute>
+              <PrivateRoute path="/userdetails/:userId">
+                <AccountDetails />
+              </PrivateRoute>
+            </Switch>
+          </MainTemplate>
+        </ThemeProvider>
+      </BrowserRouter>
+    </Provider>
   );
 };
 

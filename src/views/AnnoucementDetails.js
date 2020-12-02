@@ -104,7 +104,7 @@ const AnnoucementDetails = () => {
                     <Typography component="h2" variant="h5">
                       Użytkownik
                     </Typography>
-                    <Button to="/" component={Link}>
+                    <Button to={`/userdetails/${annoucement.user_id._id}`} component={Link}>
                       <Avatar>
                         <PersonIcon />
                       </Avatar>
@@ -147,7 +147,7 @@ const AnnoucementDetails = () => {
                   <Typography component="h2" variant="h5">
                     Użytkownik
                   </Typography>
-                  <Button to="/" component={Link}>
+                  <Button to={`/userdetails/${annoucement.user_id._id}`} component={Link}>
                     <Avatar>
                       <PersonIcon />
                     </Avatar>

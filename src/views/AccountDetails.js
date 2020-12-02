@@ -15,6 +15,8 @@ const AccountDetails = () => {
   const [token, setToken] = useState(null);
   const { userId } = useParams();
 
+  const currentUser = authService.getCurrentUserId();
+
   const deleteAnnoucement = (ann_id) => {
     fetch(`http://localhost:8080/removeAnnoucement/${ann_id}`, {
       method: 'DELETE',
@@ -39,6 +41,7 @@ const AccountDetails = () => {
       .then((result) => result.json())
       .then((ann) => {
         setUserAnnoucements(ann);
+        console.log(ann.annoucements);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -60,7 +63,7 @@ const AccountDetails = () => {
                   key={_id}
                   _id={_id}
                   {...props}
-                  userActions
+                  userActions={userId === currentUser}
                   deleteAnnoucement={deleteAnnoucement}
                 ></SingleAnnoucement>
               ))}

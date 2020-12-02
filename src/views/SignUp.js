@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import HeaderTemplate from '../components/templates/HeaderTemplate';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useHistory } from 'react-router-dom';
 import { Formik, Field, Form } from 'formik';
+import { connect } from 'react-redux';
 import * as Yup from 'yup';
 import { Button, Box, TextField, Typography, CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import authService from '../services/authService';
+import { signupAction } from '../actions/index';
 
 const useStyles = makeStyles({
   box: {
@@ -36,10 +37,16 @@ const SignupSchema = Yup.object().shape({
     .required('Pole wymagane!'),
 });
 
-const SignUp = (props) => {
+const SignUp = ({ signup, signupStatus }) => {
   const classes = useStyles();
-
+  const history = useHistory();
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (signupStatus && signupStatus.status && signupStatus.status === 201) {
+      history.push('/signin');
+    }
+  }, [signupStatus, history]);
 
   return (
     <HeaderTemplate>
@@ -50,26 +57,14 @@ const SignUp = (props) => {
           repeatedPassword: '',
         }}
         validationSchema={SignupSchema}
-        onSubmit={(values, { setSubmitting, setErrors }) => {
-          setIsLoading(true);
+        onSubmit={async ({ email, password, repeatedPassword }, { setSubmitting, setErrors }) => {
           setSubmitting(true);
-          authService
-            .register(values)
-            .then((res) => res.json())
-            .then((user) => {
-              if (user.errors) {
-                const err = {};
-                user.errors.forEach((el) => (err[el.param] = el.msg));
-                setErrors(err);
-              } else if (!user.success) {
-                setErrors({ email: 'Wystąpił błąd serwera!' });
-              } else {
-                props.history.push('/signin');
-              }
-              setSubmitting(false);
-              setIsLoading(false);
-            })
-            .catch((err) => console.log(err));
+          setIsLoading(true);
+
+          await signup(email, password, repeatedPassword, setErrors);
+
+          setSubmitting(false);
+          setIsLoading(false);
         }}
       >
         {({ values, errors, touched, isSubmitting }) => (
@@ -98,7 +93,7 @@ const SignUp = (props) => {
                 as={TextField}
                 className={classes.input}
                 value={values.password}
-                helperText={!!(errors.password && touched.password) ? errors.password : null}
+                helperText={!!errors.password ? errors.password : null}
               />
               <Field
                 error={!!(errors.repeatedPassword && touched.repeatedPassword)}
@@ -136,4 +131,14 @@ const SignUp = (props) => {
   );
 };
 
-export default SignUp;
+const mapStateToProps = (state) => {
+  const { signupStatus } = state;
+  return { signupStatus };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  signup: (email, password, repeatedPassword, setErrors) =>
+    dispatch(signupAction(email, password, repeatedPassword, setErrors)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
