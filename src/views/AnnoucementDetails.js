@@ -53,6 +53,9 @@ const useStyles = makeStyles((theme) => ({
   },
   paperImg: {
     height: 270,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   paperSmall: {
     [theme.breakpoints.down('md')]: {
@@ -72,6 +75,10 @@ const useStyles = makeStyles((theme) => ({
   },
   leftMargin: {
     marginLeft: theme.spacing(1),
+  },
+  imgSize: {
+    maxWidth: '100%',
+    maxHeight: '100%',
   },
 }));
 
@@ -96,7 +103,11 @@ const AnnoucementDetails = () => {
           <section className={classes.box}>
             <div className={classes.leftContainer}>
               <Paper className={cx(classes.paperImg, classes.paper)}>
-                <img alt={annoucement.title} src={annoucement.imageUrl} />
+                <img
+                  className={classes.imgSize}
+                  alt={annoucement.title}
+                  src={annoucement.imageUrl}
+                />
               </Paper>
               <Hidden mdUp>
                 <div className={classes.rightContainer}>

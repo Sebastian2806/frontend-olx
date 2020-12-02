@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import HeaderTemplate from '../components/templates/HeaderTemplate';
-import Annoucement from '../components/Annoucement';
-import { CircularProgress, Grid, makeStyles } from '@material-ui/core';
+import SingleAnnoucement from '../components/SingleAnnoucement';
+import { CircularProgress, makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     padding: '30px 30px 0 30px',
     display: 'flex',
@@ -12,12 +12,26 @@ const useStyles = makeStyles({
     margin: '0 auto',
     maxWidth: 1280,
   },
-});
+  annoucementsContainer: {
+    margin: 0,
+    width: '80%',
+    padding: theme.spacing(2),
+    marginTop: theme.spacing(5),
+    maxWidth: 1100,
+    minWidth: 300,
+    listStyle: 'none',
+    display: 'flex',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    [theme.breakpoints.up('md')]: {
+      justifyContent: 'flex-start',
+    },
+  },
+}));
 
 const Home = () => {
   const classes = useStyles();
   const [annoucements, setAnnoucements] = useState(null);
-  let cards;
 
   useEffect(() => {
     fetch('http://localhost:8080/getAnnoucements')
@@ -28,27 +42,16 @@ const Home = () => {
       .catch((err) => console.log(err));
   }, []);
 
-  if (annoucements) {
-    cards = annoucements.map((el) => (
-      <Annoucement
-        key={el._id}
-        title={el.title}
-        price={el.price}
-        place={el.localization}
-        photo={el.imageUrl}
-        _id={el._id}
-      />
-    ));
-  }
-
   return (
     <HeaderTemplate>
       <main className={classes.root}>
         {annoucements ? (
           annoucements.length > 0 ? (
-            <Grid container justify="center" spacing={2}>
-              {cards}
-            </Grid>
+            <ul className={classes.annoucementsContainer} component="ul">
+              {annoucements.map(({ _id, ...props }) => (
+                <SingleAnnoucement key={_id} _id={_id} {...props}></SingleAnnoucement>
+              ))}
+            </ul>
           ) : (
             <p>Brak ogłoszeń do wyświetlenia</p>
           )
