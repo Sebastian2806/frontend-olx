@@ -3,7 +3,7 @@ import { AUTH_SUCCESS, AUTH_FAIL, SIGNUP_SUCCESS, SIGNUP_FAIL } from './types';
 
 export const signupAction = (email, password, repeatedPassword, setErrors) => async (dispatch) => {
   try {
-    const payload = await axios.put('http://localhost:8080/signup', {
+    const payload = await axios.put('https://olxukw.herokuapp.com/signup', {
       email,
       password,
       repeatedPassword,
@@ -29,17 +29,19 @@ export const signupAction = (email, password, repeatedPassword, setErrors) => as
 
 export const authenticateAction = (email, password, setErrors) => async (dispatch) => {
   try {
-    const payload = await axios.post('http://localhost:8080/signin', {
+    const payload = await axios.post('https://olxukw.herokuapp.com/signin', {
       email,
       password,
     });
     localStorage.setItem('token', payload.data.token);
     localStorage.setItem('user_id', payload.data.user_id);
     dispatch({ type: AUTH_SUCCESS, payload: payload.data });
+    return true;
   } catch (err) {
     localStorage.removeItem('token');
     localStorage.removeItem('user_id');
     setErrors({ email: 'Niepoprawny email lub hasło' });
     dispatch({ type: AUTH_FAIL, payload: { message: 'Niepoprawny email lub hasło' } });
+    return false;
   }
 };

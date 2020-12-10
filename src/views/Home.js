@@ -34,7 +34,7 @@ const Home = () => {
   const [annoucements, setAnnoucements] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:8080/getAnnoucements')
+    fetch('https://olxukw.herokuapp.com/getAnnoucements')
       .then((result) => result.json())
       .then((ann) => {
         setAnnoucements(ann.annoucements);

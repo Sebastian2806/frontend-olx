@@ -31,9 +31,11 @@ const SignIn = ({ authenticate, history, user }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (user && user.isLoggedIn) {
-      history.push('/');
-    }
+    // if (user && user.isLoggedIn) {
+    //   history.push('/');
+    // } else {
+    //   history.push('/signin');
+    // }
   }, [user, history]);
 
   return (
@@ -47,7 +49,8 @@ const SignIn = ({ authenticate, history, user }) => {
           setSubmitting(true);
           setIsLoading(true);
 
-          await authenticate(email, password, setErrors);
+          const result = await authenticate(email, password, setErrors);
+          if (result) history.push('/');
 
           setSubmitting(false);
           setIsLoading(false);

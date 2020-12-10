@@ -104,7 +104,7 @@ const Home = () => {
 
           setIsLoading(true);
           setSubmitting(true);
-          fetch('http://localhost:8080/addAnnoucement', {
+          fetch('https://olxukw.herokuapp.com/addAnnoucement', {
             method: 'PUT',
             body: data,
             headers: authHeader(),
@@ -210,7 +210,7 @@ const Home = () => {
                   </MenuItem>
                 ))}
               </Field>
-              <input
+              {/* <input
                 accept="image/*"
                 style={{ display: 'none' }}
                 id="raised-button-file"
@@ -219,12 +219,12 @@ const Home = () => {
                   console.log(event.target.files[0]);
                   setFieldValue('photo', event.currentTarget.files[0]);
                 }}
-              />
-              <label htmlFor="raised-button-file" className={classes.input}>
+              /> */}
+              {/* <label htmlFor="raised-button-file" className={classes.input}>
                 <Button fullWidth variant="outlined" component="span">
                   Dodaj plik
                 </Button>
-              </label>
+              </label> */}
               {values.photo ? (
                 <Paper className={classes.paper}>
                   <Typography>{values.photo.name}</Typography>

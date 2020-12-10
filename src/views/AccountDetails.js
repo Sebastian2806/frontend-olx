@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Typography, Avatar, CircularProgress } from '@material-ui/core';
+import { Typography, Avatar, CircularProgress, TextField, Button } from '@material-ui/core';
+import { Formik, Form, Field } from 'formik';
 import HeaderTemplate from '../components/templates/HeaderTemplate';
 import PersonIcon from '@material-ui/icons/Person';
 import authService from '../services/authService';
@@ -18,7 +19,7 @@ const AccountDetails = () => {
   const currentUser = authService.getCurrentUserId();
 
   const deleteAnnoucement = (ann_id) => {
-    fetch(`http://localhost:8080/removeAnnoucement/${ann_id}`, {
+    fetch(`https://olxukw.herokuapp.com/removeAnnoucement/${ann_id}`, {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -34,14 +35,32 @@ const AccountDetails = () => {
       .catch((err) => console.log(err));
   };
 
+  const updateName = (name) => {
+    fetch(`https://olxukw.herokuapp.com/setName`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username: name }),
+    })
+      .then((result) => result.json())
+      .then((ann) => {
+        setUserAnnoucements({
+          ...userAnnoucements,
+          user: { ...userAnnoucements.user, name: name },
+        });
+      })
+      .catch((err) => console.log(err));
+  };
+
   useEffect(() => {
     const token = authService.getCurrentUser();
     setToken(token);
-    fetch(`http://localhost:8080/getUserAnnoucements/${userId}`)
+    fetch(`https://olxukw.herokuapp.com/getUserAnnoucements/${userId}`)
       .then((result) => result.json())
       .then((ann) => {
         setUserAnnoucements(ann);
-        console.log(ann.annoucements);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -55,8 +74,39 @@ const AccountDetails = () => {
               <PersonIcon className={classes.avatarSize} />
             </Avatar>
             <Typography component="h2" variant="h4">
-              {userAnnoucements.user.email}
+              {userAnnoucements.user.name || userAnnoucements.user.email}
             </Typography>
+            {userId === currentUser && (
+              <Formik
+                initialValues={{ username: '' }}
+                onSubmit={({ username }, { resetForm }) => {
+                  updateName(username);
+                  resetForm();
+                }}
+              >
+                {(errors, touched, isSubmitting) => (
+                  <Form className={classes.addUserForm}>
+                    <Field
+                      as={TextField}
+                      variant="outlined"
+                      label="Wprowadź imię"
+                      name="username"
+                      error={!!(errors.title && touched.title)}
+                      helperText={!!(errors.title && touched.title) ? errors.title : null}
+                    />
+                    <Button
+                      className={classes.addUserFormBtn}
+                      variant="contained"
+                      type="submit"
+                      disabled={isSubmitting}
+                    >
+                      Zaktualizuj
+                    </Button>
+                  </Form>
+                )}
+              </Formik>
+            )}
+
             <ul className={classes.annoucementsContainer} component="ul">
               {userAnnoucements.annoucements.map(({ _id, ...props }) => (
                 <SingleAnnoucement

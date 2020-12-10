@@ -88,7 +88,7 @@ const AnnoucementDetails = () => {
   const { annId } = useParams();
 
   useEffect(() => {
-    fetch(`http://localhost:8080/getAnnoucement/${annId}`)
+    fetch(`https://olxukw.herokuapp.com/getAnnoucement/${annId}`)
       .then((result) => result.json())
       .then((ann) => {
         setAnnoucement(ann.annoucement);

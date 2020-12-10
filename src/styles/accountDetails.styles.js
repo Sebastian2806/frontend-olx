@@ -42,6 +42,15 @@ const accountDetailsStyles = makeStyles((theme) => ({
   text: {
     height: 130,
   },
+  addUserForm: {
+    margin: 15,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  addUserFormBtn: {
+    marginLeft: 30,
+  },
 }));
 
 export default accountDetailsStyles;
